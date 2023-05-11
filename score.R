@@ -42,7 +42,8 @@ scores_with_mean |>
 # ranking correlation------------------------------------
 scores_with_mean <- left_join(scores, mean_scores, by = "entry")
 scores_with_mean |>
-  mutate(rank = dense_rank(mean_score))
+
+
 
 # plot person scores-------------------------------------------
 scores |>
