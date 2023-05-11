@@ -1,5 +1,6 @@
 # sidebyside contest scoring
 # Jack Stevenson, 2023-06
+# import libraries----------------------------------------------------
 library(tidyverse)
 library(ggplot2)
 library(readxl)
@@ -8,8 +9,13 @@ library(ggdist)
 source("import.R")
 # import score data from spreadsheet-------------------------------------
 input_filename <- "2023-06-01 scores.xlsx"
+key_filename <- "2023-06-01 beer key.xlsx"
 raw_data <- import_scores(input_filename)
+key <- readxl::read_excel(key_filename)
 scores <- raw_data |>
+  mutate(entry = as.numeric(entry)) |>
+  left_join(key, by = "entry") |>
+  mutate(entry = as.character(entry)) |>
   filter(type == "score") |>
   drop_na(score) |>
   mutate(score = as.numeric(score)) |>
@@ -41,7 +47,7 @@ scores_with_mean |>
   geom_point(stat = "summary", fun = "mean", size = 4)
 # ranking correlation------------------------------------
 scores_with_mean <- left_join(scores, mean_scores, by = "entry")
-scores_with_mean |>
+# scores_with_mean |>
 
 
 
