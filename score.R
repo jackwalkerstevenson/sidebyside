@@ -10,7 +10,7 @@ source("import.R")
 input_filename <- "test.xlsx"
 raw_data <- import_scores(input_filename)
 scores <- raw_data |>
-  dplyr::group_by(judge) |>
+  group_by(judge) |>
   mutate(z_score = as.vector(scale(score))) |>
   mutate(z_score = tidyr::replace_na(z_score, 0)) |>
   ungroup() |>
