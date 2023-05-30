@@ -23,4 +23,4 @@ scores |>
   geom_point(stat = "summary", fun = "mean", size = 4) +
   labs(x = "Z score",
        y = "entry",
-       title = "Standardized scores")
+       title = "Standardized score")
