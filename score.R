@@ -6,14 +6,22 @@ library(ggplot2)
 library(readxl)
 library(ggprism)
 library(ggdist)
-source("import.R")
+# source("import.R")
 # import score data from spreadsheet-------------------------------------
 input_filename <- "2023-06-01 scores.xlsx"
 key_filename <- "2023-06-01 beer key.xlsx"
-raw_data <- import_scores(input_filename)
-key <- readxl::read_excel(key_filename)
+raw_data <- readxl::read_excel(input_filename) |>
+  mutate(entry = as.character("entry"))
 scores <- raw_data |>
-  mutate(entry = as.numeric(entry)) |>
+  filter(type == "score") |>
+  pivot_longer(3:last_col(),
+               names_to = "entry",
+               values_to = "score")
+# import keys-----------------------------------
+key <- readxl::read_excel(key_filename) |>
+  mutate(entry = as.character("entry"))
+# process data-----------------------------------
+scores <- raw_data |>
   left_join(key, by = "entry") |>
   mutate(entry = as.character(entry)) |>
   filter(type == "score") |>
