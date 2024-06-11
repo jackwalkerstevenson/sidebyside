@@ -9,7 +9,7 @@
 #' @export
 import_scores <- function(input_filename){
   readxl::read_excel(input_filename) |>
-    # dplyr::mutate(judge = make.unique(judge, sep = "_")) |>
+    dplyr::mutate(entry = as.character("entry")) |>
     tidyr::pivot_longer(3:last_col(),
                         names_to = "entry",
                         values_to = "score")
